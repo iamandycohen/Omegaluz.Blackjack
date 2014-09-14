@@ -11,8 +11,8 @@ namespace Omegaluz.Blackjack.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var deck = new Deck();
-            foreach (var card in deck.Cards)
+            var shoe = new Shoe();
+            foreach (var card in shoe.Cards)
             {
                 Console.WriteLine(card);
             }

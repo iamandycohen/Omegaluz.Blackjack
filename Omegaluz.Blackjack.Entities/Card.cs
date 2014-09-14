@@ -19,6 +19,8 @@ namespace Omegaluz.Blackjack.Entities
         public byte[] Image { get; set; }
         public Rank Rank { get; set; }
 
+        public bool IsFaceUp { get; set; }
+
         public override string ToString()
         {
             return Name;

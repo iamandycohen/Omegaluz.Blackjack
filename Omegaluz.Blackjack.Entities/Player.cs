@@ -10,6 +10,9 @@ namespace Omegaluz.Blackjack.Entities
     {
         public decimal Balance { get; private set; }
         public decimal Bet { get; private set; }
+        public int Losses { get; private set; }
+        public int Wins { get; private set; }
+
         public Hand Hand { get; private set; }
         public Shoe Shoe { get; set; }
 
@@ -112,6 +115,23 @@ namespace Omegaluz.Blackjack.Entities
             // Only decrease the balance by half of the current bet
             Balance = Balance - (Bet / 2);
             Hit();
+        }
+
+        /// <summary>
+        /// Update the player's record with a loss
+        /// </summary>
+        public void Lose()
+        {
+            Losses += 1;
+        }
+
+        /// <summary>
+        /// Update the player's record with a win
+        /// </summary>
+        public void Win()
+        {
+            Balance += Bet * 2;
+            Wins += 1;
         }
 
     }

@@ -24,7 +24,7 @@ namespace Omegaluz.Blackjack.Entities
             ShuffleShoe();
         }
 
-        public void ShuffleShoe()
+        private void ShuffleShoe()
         {
             var rand = new Random();
             var shuffledCards = Cards

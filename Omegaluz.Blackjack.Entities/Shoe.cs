@@ -9,6 +9,7 @@ namespace Omegaluz.Blackjack.Entities
     public class Shoe
     {
         public List<Card> Cards { get; private set; }
+        public List<Card> UsedCards { get; private set; }
 
         public Shoe(int numberOfDecks = 6)
         {
@@ -20,10 +21,10 @@ namespace Omegaluz.Blackjack.Entities
                 Cards.AddRange(deckOfCards);
             }
 
-            Shuffle();
+            ShuffleShoe();
         }
 
-        public void Shuffle()
+        public void ShuffleShoe()
         {
             var rand = new Random();
             var shuffledCards = Cards
@@ -32,5 +33,30 @@ namespace Omegaluz.Blackjack.Entities
 
             Cards = shuffledCards;
         }
+
+        /// <summary>
+        /// Draws one card and removes it from the deck
+        /// </summary>
+        /// <returns></returns>
+        public Card Draw()
+        {
+            var card = Cards[0];
+            Cards.RemoveAt(0);
+            UsedCards.Add(card);
+
+            return card;
+        }
+
+        public void RecycleUsedCards()
+        {
+            var rand = new Random();
+            var shuffledUsedCards = UsedCards
+                .OrderBy(c => rand.Next())
+                .ToList();
+
+            UsedCards.Clear();
+            Cards.AddRange(shuffledUsedCards);
+        }
+
     }
 }

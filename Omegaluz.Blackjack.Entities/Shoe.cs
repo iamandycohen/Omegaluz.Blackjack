@@ -14,6 +14,7 @@ namespace Omegaluz.Blackjack.Entities
         public Shoe(int numberOfDecks = 6)
         {
             Cards = new List<Card>();
+            UsedCards = new List<Card>();
 
             for (int i = 1; i <= numberOfDecks; i++)
             {

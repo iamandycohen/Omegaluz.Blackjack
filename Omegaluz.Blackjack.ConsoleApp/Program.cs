@@ -11,12 +11,9 @@ namespace Omegaluz.Blackjack.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var shoe = new Shoe();
-            foreach (var card in shoe.Cards)
-            {
-                Console.WriteLine(card);
-            }
-            Console.ReadKey();
+            var game = new Game(100);
+            game.DealNewGame();
+            game.Player.Hands[0].Hit();
         }
     }
 }

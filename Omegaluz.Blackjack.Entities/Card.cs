@@ -8,6 +8,11 @@ namespace Omegaluz.Blackjack.Entities
 {
     public class Card
     {
+        public Card()
+        {
+            IsFaceUp = true;
+        }
+
         public string Name
         {
             get

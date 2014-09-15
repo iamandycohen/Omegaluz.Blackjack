@@ -13,23 +13,25 @@ namespace Omegaluz.Blackjack.Entities
         public int Wins { get; set; }
 
         public List<Hand> Hands { get; private set; }
-        public Shoe Shoe { get; set; }
+        public Shoe Shoe { get; private set; }
+        public Game Game { get; private set; }
 
-        public Player(Shoe shoe) : this(shoe, -1)
+        public Player(Game game, Shoe shoe) : this(game, shoe, -1)
         {
             Hands = new List<Hand>();
         }
 
-        public Player(Shoe shoe, int initialBalance)
+        public Player(Game game, Shoe shoe, int initialBalance)
         {
             Balance = initialBalance;
+            Game = game;
+            Shoe = shoe;
         }
 
         public Hand NewHand()
         {
             var newHand = new Hand(this);
-            Hands = new List<Hand>();
-            Hands.Add(newHand);
+            Hands = new List<Hand> { newHand };
 
             return newHand;
         }

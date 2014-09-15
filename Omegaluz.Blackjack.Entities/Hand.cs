@@ -31,15 +31,12 @@ namespace Omegaluz.Blackjack.Entities
         /// <returns></returns>
         public int CompareFaceValue(object otherHand)
         {
-            Hand aHand = otherHand as Hand;
+            var aHand = otherHand as Hand;
             if (aHand != null)
             {
-                return this.GetSumOfHand().CompareTo(aHand.GetSumOfHand());
+                return GetSumOfHand().CompareTo(aHand.GetSumOfHand());
             }
-            else
-            {
-                throw new ArgumentException("Argument is not a Hand");
-            }
+            throw new ArgumentException("Argument is not a Hand");
         }
 
         /// <summary>
@@ -81,7 +78,6 @@ namespace Omegaluz.Blackjack.Entities
         {
             Player = player;
         }
-
 
         /// <summary>
         /// Increases the bet amount each time a bet is added to the hand.  Invoked through the betting coins in the BlackJackForm.cs UI
@@ -133,7 +129,7 @@ namespace Omegaluz.Blackjack.Entities
         {
             if (GetSumOfHand() == 21)
                 return true;
-            else return false;
+            return false;
         }
 
         /// <summary>
@@ -144,7 +140,7 @@ namespace Omegaluz.Blackjack.Entities
         {
             if (GetSumOfHand() > 21)
                 return true;
-            else return false;
+            return false;
         }
 
         /// <summary>
@@ -167,12 +163,57 @@ namespace Omegaluz.Blackjack.Entities
             Hit();
         }
 
+        public void Split()
+        {
+            var rank = Cards.First().Rank;
+            if (rank == Rank.Jack || rank == Rank.Queen || rank == Rank.King)
+            {
+                rank = Rank.Ten;
+            }
+
+            if (Cards.Count == 2 && Cards.All(card => {
+                var adjustedRank = card.Rank;
+
+                if (card.Rank == Rank.Jack || card.Rank == Rank.Queen || card.Rank == Rank.King)
+                {
+                    adjustedRank = Rank.Ten;
+                }
+
+                return adjustedRank == rank;
+            }))
+            {
+                var splitCard = Cards.First();
+                var splitHand = new Hand(Player);
+
+                splitHand.Cards.Add(splitCard);
+                Player.Hands.Add(splitHand);
+
+                Cards.Remove(splitCard);
+
+                splitHand.IncreaseBet(Bet);
+                Player.Balance = Player.Balance - (splitHand.Bet / 2);
+            }
+            else
+            {
+                throw new Exception("Cards must be of equal value to split.");
+            }
+        }
+
         /// <summary>
         /// Update the player's record with a loss
         /// </summary>
         public void Lose()
         {
             Player.Losses += 1;
+        }
+
+        /// <summary>
+        /// Update the player's record with a blackjack win
+        /// </summary>
+        public void WinBlackjack()
+        {
+            Player.Balance += (Bet * 2) + (Bet / 2);
+            Player.Wins += 1;
         }
 
         /// <summary>
